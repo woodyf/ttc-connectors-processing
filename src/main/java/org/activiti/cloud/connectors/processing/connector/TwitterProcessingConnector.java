@@ -1,5 +1,7 @@
 package org.activiti.cloud.connectors.processing.connector;
 
+import static net.logstash.logback.marker.Markers.append;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,40 +19,35 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
-import static net.logstash.logback.marker.Markers.append;
-
 @Component
 @EnableBinding(ProcessingConnectorChannels.class)
 public class TwitterProcessingConnector {
 
-    private final Logger logger = LoggerFactory.getLogger(TwitterProcessingConnector.class);
-    private final IntegrationResultSender integrationResultSender;
-    @Value("${spring.application.name}")
-    private String appName;
-    @Autowired
-    private ConnectorProperties connectorProperties;
+	private final Logger logger = LoggerFactory.getLogger(TwitterProcessingConnector.class);
+	private final IntegrationResultSender integrationResultSender;
+	@Value("${spring.application.name}")
+	private String appName;
+	@Autowired
+	private ConnectorProperties connectorProperties;
 
-    public TwitterProcessingConnector(IntegrationResultSender integrationResultSender) {
+	public TwitterProcessingConnector(IntegrationResultSender integrationResultSender) {
 
-        this.integrationResultSender = integrationResultSender;
-    }
+		this.integrationResultSender = integrationResultSender;
+	}
 
-    @StreamListener(value = ProcessingConnectorChannels.TWITTER_PROCESSING_CONSUMER)
-    public void processEnglish(IntegrationRequest event) throws InterruptedException {
+	@StreamListener(value = ProcessingConnectorChannels.TWITTER_PROCESSING_CONSUMER)
+	public void processEnglish(IntegrationRequest event) throws InterruptedException {
 
-        String tweet = String.valueOf(event.getIntegrationContext().getInBoundVariables().get("text"));
-        logger.info(append("service-name",
-                appName),
-                ">>> Doing cleaning/processing of posted content sized " + (tweet == null ? "null" : tweet.length()));
+		String tweet = String.valueOf(event.getIntegrationContext().getInBoundVariables().get("text"));
+		logger.info(append("service-name", appName),
+				">>> Doing cleaning/processing of posted content sized " + (tweet == null ? "null" : tweet.length()));
 
-        //@TODO: perform processing here
+		// @TODO: perform processing here
 
-        Map<String, Object> results = new HashMap<>();
-        results.put("text",
-                tweet);
-        Message<IntegrationResult> message = IntegrationResultBuilder.resultFor(event, connectorProperties)
-                .withOutboundVariables(results)
-                .buildMessage();
-        integrationResultSender.send(message);
-    }
+		Map<String, Object> results = new HashMap<>();
+		results.put("text", tweet);
+		Message<IntegrationResult> message = IntegrationResultBuilder.resultFor(event, connectorProperties)
+				.withOutboundVariables(results).buildMessage();
+		integrationResultSender.send(message);
+	}
 }

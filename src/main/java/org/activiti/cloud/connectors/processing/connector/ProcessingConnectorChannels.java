@@ -21,13 +21,13 @@ import org.springframework.messaging.SubscribableChannel;
 
 public interface ProcessingConnectorChannels {
 
-    String TWITTER_ANALYZER_CONSUMER = "twitterAnalyzerConsumer";
-    String TWITTER_PROCESSING_CONSUMER = "twitterProcessingConsumer";
+	String TWITTER_ANALYZER_CONSUMER = "twitterAnalyzerConsumer";
+	String TWITTER_PROCESSING_CONSUMER = "twitterProcessingConsumer";
 
-    @Input(TWITTER_ANALYZER_CONSUMER)
-    SubscribableChannel twitterAnalyzerConsumer();
+	@Input(TWITTER_ANALYZER_CONSUMER)
+	SubscribableChannel twitterAnalyzerConsumer();
 
-    @Input(TWITTER_PROCESSING_CONSUMER)
-    SubscribableChannel twitterProcessingConsumer();
+	@Input(TWITTER_PROCESSING_CONSUMER)
+	SubscribableChannel twitterProcessingConsumer();
 
 }

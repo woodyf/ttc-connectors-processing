@@ -20,17 +20,14 @@ import org.activiti.cloud.connectors.processing.analyzer.NLP;
 import org.activiti.cloud.connectors.starter.configuration.EnableActivitiCloudConnector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableActivitiCloudConnector
-@ComponentScan({"org.activiti.cloud.connectors.starter","org.activiti.cloud.connectors.processing","org.activiti.cloud.services.common.security"})
 public class ProcessingCloudConnectorApp {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ProcessingCloudConnectorApp.class,
-                              args);
-        // Init NPL Functions
-        NLP.init();
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(ProcessingCloudConnectorApp.class, args);
+		// Init NPL Functions
+		NLP.init();
+	}
 }
